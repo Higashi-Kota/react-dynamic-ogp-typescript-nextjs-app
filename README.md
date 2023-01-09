@@ -1,2 +1,3 @@
 - Reference
   - https://www.newt.so/docs/tutorials/vercel-og-image-generation
+  - https://www.to-r.net/media/next-meta-tags/
