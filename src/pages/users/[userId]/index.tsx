@@ -2,7 +2,7 @@ import { readFileSync } from 'fs'
 import { join } from 'path'
 import { cwd } from 'process'
 
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useMemo } from 'react'
 
 import Head from 'next/head'
 
@@ -18,6 +18,10 @@ const User = lazy(() => import('@/features/user/components/User'))
 
 // https://stackoverflow.com/a/71013990/15972569
 const UserPage: NextPage<{ user: UserData }> = ({ user }) => {
+  const ogImage = useMemo(() => {
+    return `${env.NEXT_PUBLIC_FRONTEND_BASE_URL}/api/og?title=${user?.name}`
+  }, [user])
+
   return (
     <ErrorBoundary>
       <Suspense
@@ -34,10 +38,7 @@ const UserPage: NextPage<{ user: UserData }> = ({ user }) => {
         {/* https://dev.to/inthepocket/dynamic-open-graph-images-with-nextjs-jg7 */}
         <Head>
           <title>{`Next.js | ${user?.name}`}</title>
-          <meta
-            property='og:image'
-            content={`${env.NEXT_PUBLIC_FRONTEND_BASE_URL}/api/og?title=${user?.name}`}
-          />
+          <meta property='og:image' content={ogImage} />
         </Head>
         <User user={user} />
       </Suspense>
