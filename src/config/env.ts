@@ -1,6 +1,9 @@
 import { envsafe, num, str } from 'envsafe'
 
 const env = envsafe({
+  NEXT_PUBLIC_FRONTEND_BASE_URL: str({
+    default: process.env.NEXT_PUBLIC_FRONTEND_BASE_URL,
+  }),
   NEXT_PUBLIC_BACKEND_ENDPOINT_BASE_URL: str({
     default: process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_BASE_URL,
   }),

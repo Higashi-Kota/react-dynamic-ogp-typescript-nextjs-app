@@ -13,7 +13,6 @@ import ErrorBoundary from '@/components/fallback/ErrorBoundary'
 import { FallbackLoading } from '@/components/fallback/FallbackLoading'
 import { env } from '@/config/env'
 import { UserData, UsersData } from '@/features/user/types'
-import { createOGP } from '@/libs/createOGP'
 
 const User = lazy(() => import('@/features/user/components/User'))
 
@@ -35,7 +34,10 @@ const UserPage: NextPage<{ user: UserData }> = ({ user }) => {
         {/* https://dev.to/inthepocket/dynamic-open-graph-images-with-nextjs-jg7 */}
         <Head>
           <title>{`Next.js | ${user?.name}`}</title>
-          <meta property='og:image' content={`/generated/${user?.id}.png`} />
+          <meta
+            property='og:image'
+            content={`${env.NEXT_PUBLIC_FRONTEND_BASE_URL}/api/og?title=${user?.name}`}
+          />
         </Head>
         <User user={user} />
       </Suspense>
@@ -95,9 +97,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
     return item?.id === params?.userId
   })
 
-  data.forEach((item: UserData, index: number) => {
-    void createOGP(item?.id)
-  })
+  // data.forEach((item: UserData, index: number) => {
+  //   void createOGP(item?.id)
+  // })
 
   return {
     props: {
